@@ -4,11 +4,11 @@ pragma solidity ^0.8.24;
 
 import {Script} from "forge-std/Script.sol";
 import {FundMe} from "../src/FundMe.sol";
-import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";    
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 
-contract DeployFundMe is Script{
-    function run() external returns(FundMe){
+contract DeployFundMe is Script {
+    function run() external returns (FundMe) {
         //before broadcast is not gonna send a "real" tx
         HelperConfig helperConfig = new HelperConfig();
         address ethUsdPriceFeed = helperConfig.activeNetworkConfig();
@@ -18,5 +18,4 @@ contract DeployFundMe is Script{
         vm.stopBroadcast();
         return fundMe;
     }
-
 }

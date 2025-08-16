@@ -10,11 +10,11 @@ error FundMe_NotOwner();
 contract FundMe {
     using PriceConverter for uint256;
 
-    mapping(address => uint256) private s_addressToAmountFunded;//storage variable gas-100 ie high
+    mapping(address => uint256) private s_addressToAmountFunded; //storage variable gas-100 ie high
     address[] private s_funders;
 
     // Could we make this constant?  /* hint: no! We should make it immutable! */
-    address private immutable  i_owner;
+    address private immutable i_owner;
     uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
     AggregatorV3Interface private s_priceFeed;
 
@@ -39,8 +39,9 @@ contract FundMe {
         if (msg.sender != i_owner) revert FundMe_NotOwner();
         _; //next functions will run only if the condition is met
     }
+
     function withdraw() public onlyOwner {
-        uint256 fundersLength = s_funders.length; //cheaper 
+        uint256 fundersLength = s_funders.length; //cheaper
         for (uint256 funderIndex = 0; funderIndex < fundersLength; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
@@ -78,23 +79,19 @@ contract FundMe {
         fund();
     }
 
+    // view /pure functions(getters)
 
-// view /pure functions(getters)
-
-    function getAddressToAmountFunded(
-        address fundingAddress
-    )external view returns(uint256){
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
 
-    function getFunder(uint256 index) external view returns(address){
+    function getFunder(uint256 index) external view returns (address) {
         return s_funders[index];
     }
-    function getOwner() external view returns(address){
+
+    function getOwner() external view returns (address) {
         return i_owner;
     }
-
-
 }
 // Concepts we didn't cover yet (will cover in later sections)
 // 1. Enum
